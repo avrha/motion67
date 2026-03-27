@@ -1,1 +1,1 @@
-Bro put belt right to they behind. The way that switch brrt, I know he dyin' 67
+Detects the 67 meme gesture in real time by tracking hand movement through the user's video camera.
