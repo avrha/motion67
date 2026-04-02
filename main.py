@@ -2,6 +2,19 @@ import numpy as np
 import cv2 as cv
 import time
 
+class FPSCounter:
+  def __init__(self):
+    self.prev = time.time()
+
+  def tick(self):
+    now = time.time()
+    fps = 1 / (now - self.prev)
+    self.prev = now
+    return fps
+  
+  def display_fps(self, frame, fps):
+    cv.putText(frame, f"FPS: {fps:.2f}", (10, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
 def main():
   cap = cv.VideoCapture(0, cv.CAP_V4L2)
   cap.set(cv.CAP_PROP_FOURCC, cv.VideoWriter_fourcc(*'MJPG'))
@@ -14,7 +27,7 @@ def main():
     print("Cannot open camera")
     exit()
 
-  prev = time.time()
+  fps_counter = FPSCounter()
 
   while True:
     ret, frame = cap.read()
@@ -23,21 +36,10 @@ def main():
       print("Can't receive frame (stream end?). Exiting ...")
       break
 
-    now = time.time()
-    fps = 1 / (now - prev)
-    prev = now
+    fps = fps_counter.tick()
+    fps_counter.display_fps(frame, fps)
 
-    cv.putText(
-      frame,
-      f"FPS: {fps:1f}",
-      (10,30),
-      cv.FONT_HERSHEY_SIMPLEX,
-      1,
-      (0, 255, 0),
-      2
-    )
-      
-    cv.imshow('frame', frame)
+    cv.imshow('Camera', frame)
 
     if cv.waitKey(1) == ord('q'):
       break
