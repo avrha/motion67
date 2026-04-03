@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "/home/sjfer/motion67_venv/bin/python",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.useLibraryCodeForTypes": true,
+  "python.analysis.indexing": true,
+  "pylint.args": ["--extension-pkg-allow-list=cv2"]
+}
